@@ -12,6 +12,8 @@ function Player(game, initialPosition, initialDirection, color) {
   this.color = color;
   this.speed = 2.5;
   this.fireDelay = 0;
+  this.invuln = 0;
+  this.flash = 0;
 }
 
 Player.prototype.setOpponent = function (otherPlayer) {
@@ -25,7 +27,12 @@ Player.prototype.getPos = function () {
 Player.prototype.draw = function (ctx) {
   ctx.translate(this.posX, this.posY);
   ctx.rotate(this.direction + (Math.PI / 2));
-  ctx.fillStyle = this.color;
+  if (this.flash > 200) {
+    
+    ctx.fillStyle = "rgb(" + (Math.abs(this.color[0] - 255)) + ", " + (Math.abs(this.color[1] - 255)) + ", " + (Math.abs(this.color[2] - 255)) + ")"
+  } else {
+    ctx.fillStyle = "rgb(" + this.color[0] + ", " + this.color[1] + ", " + this.color[2] + ")";
+  }
   ctx.fillRect(-25, -25, 50, 50);
   ctx.fillRect(-33, -30, 16, 60);
   ctx.fillRect(18, -30, 16, 60);
@@ -134,6 +141,17 @@ Player.prototype.step = function () {
   if (this.fireDelay > 0 ) {
     this.fireDelay -= 20;
   }
+
+  if (this.invuln > 0) {
+    this.invuln -= 20;
+    if (this.flash <= 0) {
+      this.flash = 400;
+    }
+    this.flash -= 20;
+  } else {
+    this.flash = 0;
+  }
+
 };
 
 Player.prototype.fire = function () {
@@ -143,17 +161,18 @@ Player.prototype.fire = function () {
       [this.posX + (Math.cos(this.direction) * 40), this.posY + (Math.sin(this.direction) * 40)],
       this.direction
     ));
-    console.log("posX: " + this.posX + " posY : " + this.posY);
-    console.log(Math.cos(this.direction) * 45);
     this.fireDelay = 600;
   }
 };
 
 Player.prototype.hit = function () {
-  this.lives -= 1;
-  this.posX = this.spawnLoc[0];
-  this.posY = this.spawnLoc[1];
-  this.direction = this.spawnDirection;
+  if (this.invuln <= 0) {
+    this.lives -= 1;
+    this.posX = this.spawnLoc[0];
+    this.posY = this.spawnLoc[1];
+    this.direction = this.spawnDirection;
+    this.invuln = 2500;
+  }
 };
 
 module.exports = Player;

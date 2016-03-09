@@ -5,8 +5,8 @@ var Bullet = require('./bullet.js');
 function Game() {
   this.dimX = 1000;
   this.dimY = 800;
-  this.player1 = new Player(this, [100, 400], 0, '#000');
-  this.player2 = new Player(this, [900, 400], Math.PI, '#f00');
+  this.player1 = new Player(this, [100, 400], 0, [0, 0, 0]);
+  this.player2 = new Player(this, [900, 400], Math.PI, [255, 0, 0]);
   this.player1.setOpponent(this.player2);
   this.player2.setOpponent(this.player1);
   this.over = false;
@@ -59,7 +59,6 @@ Game.prototype.step = function (ctx) {
 
 Game.prototype.newBullet = function (bullet) {
   this.bullets.push(bullet);
-  console.log(bullet);
 };
 
 Game.prototype.end = function() {
