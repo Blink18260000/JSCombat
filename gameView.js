@@ -13,7 +13,6 @@ GameView.prototype.start = function() {
     this.checkKey();
     this.game.step();
     this.game.draw(this.ctx);
-    debugger;
     if (this.game.over) {
       this.renderOver();
       clearInterval(gameLoop);
@@ -23,7 +22,8 @@ GameView.prototype.start = function() {
 
 GameView.prototype.renderOver = function () {
   this.ctx.fillStyle = 'black';
-  this.ctx.fillRect(0,0,this.game.dimX,this.game.dimY + 50);
+  this.ctx.fillRect(this.game.dimX / 4, this.game.dimY / 4,
+    this.game.dimX / 2, this.game.dimY / 2);
 
   this.ctx.font="50px Courier";
   this.ctx.fillStyle = "white";
@@ -46,14 +46,14 @@ GameView.prototype.checkKey = function () {
   }
 
   if (key.isPressed('a')) {
-    this.player1.turn(-Math.PI/32);
+    this.player1.turn(-Math.PI/64);
   }
 
   if (key.isPressed('d')) {
-    this.player1.turn(Math.PI/32);
+    this.player1.turn(Math.PI/64);
   }
 
-  if (key.isPressed('z')) {
+  if (key.shift) {
     this.player1.fire();
   }
 
@@ -67,14 +67,14 @@ GameView.prototype.checkKey = function () {
   }
 
   if (key.isPressed('j')) {
-    this.player2.turn(-Math.PI/32);
+    this.player2.turn(-Math.PI/64);
   }
 
   if (key.isPressed('l')) {
-    this.player2.turn(Math.PI/32);
+    this.player2.turn(Math.PI/64);
   }
 
-  if (key.isPressed('n')) {
+  if (key.isPressed('space')) {
     this.player2.fire();
   }
 

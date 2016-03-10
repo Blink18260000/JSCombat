@@ -5,35 +5,80 @@ var Bullet = require('./bullet.js');
 function Game() {
   this.dimX = 1000;
   this.dimY = 800;
-  this.player1 = new Player(this, [100, 400], 0, [0, 0, 0]);
-  this.player2 = new Player(this, [900, 400], Math.PI, [255, 0, 0]);
+  this.player1 = new Player(this, [100, 400], 0, "green");
+  this.player2 = new Player(this, [900, 400], Math.PI, "blue");
   this.player1.setOpponent(this.player2);
   this.player2.setOpponent(this.player1);
   this.over = false;
-  this.map = [[300, 100, 50, 200],
-              [150, 250, 150, 50],
-              [150, 500, 200, 50],
-              [300, 550, 50, 150],
-              [450, 350, 100, 100],
-              [650, 100, 50, 200],
-              [700, 250, 150, 50],
-              [650, 500, 200, 50],
-              [650, 550, 50, 150]
-            ]
+  this.map = [
+              [5, 2], [5, 3], [5, 4], [5, 5], [4, 5], [3, 5], [2, 5],
+              [5, 13], [5, 12], [5, 11], [5, 10], [4, 10], [3, 10], [2, 10],
+              [14, 2], [14, 3], [14, 4], [14, 5], [15, 5], [16, 5], [17, 5],
+              [14, 13], [14, 12], [14, 11], [14, 10], [15, 10], [16, 10], [17, 10],
+              [9, 7], [10, 7], [9, 8], [10, 8]
+             ];
+  this.wallTiler();
+  this.wallSprite = new Image();
+  this.wallSprite.src = './sprite-sheet.png';
+  this.groundTile = new Image();
+  this.groundTile.src = './dirt.png';
   this.bullets = [];
 }
 
+Game.prototype.wallTiler = function () {
+  this.wallTiles = [];
+  var validWalls = [2, 2, 2, 4, 4, 4, 6, 7];
+  for (var i = 0; i < this.map.length; i++) {
+    var wallInd = Math.floor(Math.random() * 8);
+    this.wallTiles.push(validWalls[wallInd]);
+  }
+};
+
 Game.prototype.draw = function (ctx) {
-  ctx.clearRect(0, 0, this.dimX, this.dimY);
+  this.drawGround(ctx);
+  this.drawScore(ctx);
   for (i = 0; i < this.bullets.length; i++) {
     this.bullets[i].draw(ctx);
   }
   this.player1.draw(ctx);
   this.player2.draw(ctx);
   for (var i = 0; i < this.map.length; i++) {
-    var obstacle = this.map[i];
-    ctx.fillStyle = '#00f';
-    ctx.fillRect(obstacle[0], obstacle[1], obstacle[2], obstacle[3]);
+    var wall = this.map[i];
+    wallInd = this.wallTiles[i];
+
+    ctx.drawImage(this.wallSprite,
+      wallInd * 84,
+      3 * 84,
+      84,
+      84,
+      wall[0] * 50,
+      wall[1] * 50,
+      50,
+      50
+    );
+  }
+};
+
+Game.prototype.drawScore = function (ctx) {
+  ctx.fillStyle = 'white';
+  ctx.fillRect(0, this.dimY, this.dimX, 50);
+  ctx.font = '30px sans-serif';
+  ctx.fillStyle = 'black';
+  ctx.fillText("Player 1 lives: " + this.player1.lives, 50, this.dimY + 35);
+  ctx.fillText("Player 2 lives: " + this.player2.lives, this.dimX - 265, this.dimY + 35);
+};
+
+Game.prototype.drawGround = function (ctx) {
+  for (var x = 0; x < 4; x++) {
+    for (var y = 0; y < 4; y++) {
+      ctx.drawImage(
+        this.groundTile,
+        x * 256,
+        y * 256,
+        256,
+        256
+      );
+    }
   }
 };
 

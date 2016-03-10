@@ -7,15 +7,16 @@ function Bullet(game, initialPosition, direction) {
   this.direction = direction;
   this.color = '#fff';
   this.speed = 7;
+  this.bulletImage = new Image();
+  this.bulletImage.src = "./sprite-sheet.png";
 }
 
 Bullet.prototype.draw = function (ctx) {
   ctx.translate(this.posX, this.posY);
+  ctx.rotate(this.direction + (Math.PI / 2));
   ctx.fillStyle = this.color;
 
-  ctx.beginPath();
-  ctx.arc(0, 0, 5, 0, 2 * Math.PI);
-  ctx.fill();
+  ctx.drawImage(this.bulletImage, (5 * 84) + 10, (2 * 84) + 10, 64, 64, -64 / 2, -64 / 2, 64, 64);
 
   ctx.setTransform(1, 0, 0, 1, 0, 0);
 };
@@ -37,8 +38,8 @@ Bullet.prototype.collision = function () {
 };
 
 Bullet.prototype.inside = function (checkPnt, obstacle) {
-  if (checkPnt[0] > obstacle[0] && checkPnt[0] < obstacle[0] + obstacle[2]) {
-    if (checkPnt[1] > obstacle[1] && checkPnt[1] < obstacle[1] + obstacle[3]) {
+  if (checkPnt[0] > obstacle[0] * 50 && checkPnt[0] < obstacle[0] * 50 + 50) {
+    if (checkPnt[1] > obstacle[1] * 50 && checkPnt[1] < obstacle[1] * 50 + 50) {
       return true;
     }
   }

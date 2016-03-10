@@ -2,11 +2,27 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <link rel=StyleSheet href="style.css" type="text/css" />
     <title></title>
   </head>
-  <body style="margin: 0; padding: 0; position: relative; width: 100vw; height: 100vh; background-color: #ffbf80">
-  <canvas style="background-color: #80FF00; position: relative; top: 50%; left: 50%; margin-top: -400px; margin-left: -500px" id="game-canvas" width="1000" height="800"></canvas>
-  <script src='./testingApp.js'>
-</script>
+  <body>
+    <canvas id="game-canvas" width="1000" height="850"></canvas>
+    <div class="instruction-container">
+      <h1>Controls:</h1>
+      <h2>Player 1:</h2>
+      <h3>Move Forward: W</h3>
+      <h3>Move Backward: S</h3>
+      <h3>Turn Left: A</h3>
+      <h3>Move Right: D</h3>
+      <h3>Fire: Shift</h3>
+
+      <h2>Player 2:</h2>
+      <h3>Move Forward: I</h3>
+      <h3>Move Backward: K</h3>
+      <h3>Turn Left: J</h3>
+      <h3>Move Right: L</h3>
+      <h3>Fire: Space</h3>
+    </div>
+    <script src='./testingApp.js'></script>
   </body>
 </html>

@@ -9,11 +9,19 @@ function Player(game, initialPosition, initialDirection, color) {
   this.spawnDirection = initialDirection;
   this.direction = initialDirection;
   this.lives = 3;
-  this.color = color;
+  if (color === "green") {
+    this.spriteArray = [1, 2, 3, 4, 5, 6, 7, 8];
+  } else {
+    this.spriteArray = [9, 10, 11, 12, 13, 14, 15, 16];
+  }
+  this.spriteIndex = 0;
+  this.spriteSheet = new Image();
+  this.spriteSheet.src = './sprite-sheet.png';
   this.speed = 2.5;
   this.fireDelay = 0;
   this.invuln = 0;
   this.flash = 0;
+  this.spriteTime = 80;
 }
 
 Player.prototype.setOpponent = function (otherPlayer) {
@@ -27,16 +35,23 @@ Player.prototype.getPos = function () {
 Player.prototype.draw = function (ctx) {
   ctx.translate(this.posX, this.posY);
   ctx.rotate(this.direction + (Math.PI / 2));
-  if (this.flash > 200) {
-    
-    ctx.fillStyle = "rgb(" + (Math.abs(this.color[0] - 255)) + ", " + (Math.abs(this.color[1] - 255)) + ", " + (Math.abs(this.color[2] - 255)) + ")"
-  } else {
-    ctx.fillStyle = "rgb(" + this.color[0] + ", " + this.color[1] + ", " + this.color[2] + ")";
+  if (this.flash < 200) {
+
+    ctx.drawImage(this.spriteSheet,
+      ((this.spriteArray[this.spriteIndex] % 8) * 84) + 2,
+      (Math.floor(this.spriteArray[this.spriteIndex] / 8) * 84) + 2,
+      80,
+      80,
+      -80 / 2,
+      -80 / 2,
+      80,
+      80);
+
+    // ctx.fillRect(-25, -25, 50, 50);
+    // ctx.fillRect(-33, -30, 16, 60);
+    // ctx.fillRect(18, -30, 16, 60);
+    // ctx.fillRect(-5, -45, 10, 20);
   }
-  ctx.fillRect(-25, -25, 50, 50);
-  ctx.fillRect(-33, -30, 16, 60);
-  ctx.fillRect(18, -30, 16, 60);
-  ctx.fillRect(-5, -45, 10, 20);
 
   ctx.setTransform(1, 0, 0, 1, 0, 0);
 };
@@ -68,8 +83,8 @@ Player.prototype.collision = function () {
 };
 
 Player.prototype.inside = function (checkPnt, obstacle) {
-  if (checkPnt[0] > obstacle[0] && checkPnt[0] < obstacle[0] + obstacle[2]) {
-    if (checkPnt[1] > obstacle[1] && checkPnt[1] < obstacle[1] + obstacle[3]) {
+  if (checkPnt[0] > obstacle[0] * 50 && checkPnt[0] < obstacle[0] * 50 + 50) {
+    if (checkPnt[1] > obstacle[1] * 50 && checkPnt[1] < obstacle[1] * 50 + 50) {
       return true;
     }
   }
@@ -102,6 +117,12 @@ Player.prototype.moveForward = function() {
   if (this.posY > 770) {
     this.posY = 770;
   }
+
+  this.spriteTime -= 20;
+  if (this.spriteTime <= 0) {
+    this.spriteIndex = (this.spriteIndex + 1) % 8;
+    this.spriteTime = 80;
+  }
 };
 
 Player.prototype.moveBackward = function() {
@@ -130,6 +151,12 @@ Player.prototype.moveBackward = function() {
   }
   if (this.posY > 775) {
     this.posY = 775;
+  }
+
+  this.spriteTime += 10;
+  if (this.spriteTime >= 80) {
+    this.spriteIndex = (this.spriteIndex + 7) % 8;
+    this.spriteTime = 0;
   }
 };
 
