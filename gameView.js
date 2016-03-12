@@ -74,7 +74,7 @@ GameView.prototype.checkKey = function () {
     this.player2.turn(Math.PI/64);
   }
 
-  if (key.isPressed('space')) {
+  if (key.isPressed('b')) {
     this.player2.fire();
   }
 

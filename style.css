@@ -14,7 +14,7 @@ span, article, footer, time, small {
   vertical-align: inherit;
   box-sizing: inherit;
   background: transparent;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Alfa Slab One', Helvetica, sans-serif;
 }
 
 body {
@@ -23,7 +23,8 @@ body {
   position: relative;
   width: 100vw;
   height: 100vh;
-  background-color: #ffbf80;
+  background-image: url('background.jpg');
+  background-size: cover;
 }
 
 canvas {
@@ -58,7 +59,9 @@ h3 {
   margin-top: -400px;
   margin-left: -700px;
   width: 200px;
-  color: #000;
-  background-color: #fff;
+  color: #2db300;
+  background-color: #663300;
   padding-bottom: 20px;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
 }

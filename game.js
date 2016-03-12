@@ -21,7 +21,7 @@ function Game() {
   this.wallSprite = new Image();
   this.wallSprite.src = './sprite-sheet.png';
   this.groundTile = new Image();
-  this.groundTile.src = './dirt.png';
+  this.groundTile.src = './dirtSheet.png';
   this.bullets = [];
 }
 
@@ -60,23 +60,27 @@ Game.prototype.draw = function (ctx) {
 };
 
 Game.prototype.drawScore = function (ctx) {
-  ctx.fillStyle = 'white';
+  ctx.fillStyle = '#663300';
   ctx.fillRect(0, this.dimY, this.dimX, 50);
-  ctx.font = '30px sans-serif';
-  ctx.fillStyle = 'black';
+  ctx.font = '30px Alfa Slab One';
+  ctx.fillStyle = '#2db300';
   ctx.fillText("Player 1 lives: " + this.player1.lives, 50, this.dimY + 35);
-  ctx.fillText("Player 2 lives: " + this.player2.lives, this.dimX - 265, this.dimY + 35);
+  ctx.fillText("Player 2 lives: " + this.player2.lives, this.dimX - 290, this.dimY + 35);
 };
 
 Game.prototype.drawGround = function (ctx) {
-  for (var x = 0; x < 4; x++) {
-    for (var y = 0; y < 4; y++) {
+  for (var x = 0; x < 11; x++) {
+    for (var y = 0; y < 9; y++) {
       ctx.drawImage(
         this.groundTile,
-        x * 256,
-        y * 256,
-        256,
-        256
+        0,
+        160,
+        96,
+        96,
+        x * 96,
+        y * 96,
+        96,
+        96
       );
     }
   }

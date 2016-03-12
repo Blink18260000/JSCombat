@@ -46,11 +46,6 @@ Player.prototype.draw = function (ctx) {
       -80 / 2,
       80,
       80);
-
-    // ctx.fillRect(-25, -25, 50, 50);
-    // ctx.fillRect(-33, -30, 16, 60);
-    // ctx.fillRect(18, -30, 16, 60);
-    // ctx.fillRect(-5, -45, 10, 20);
   }
 
   ctx.setTransform(1, 0, 0, 1, 0, 0);
